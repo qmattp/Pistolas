@@ -2,6 +2,7 @@ import pygame, random
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+RED = (183, 20, 20)
 
 class Meteor(pygame.sprite.Sprite):
 	def __init__(self):
@@ -20,7 +21,7 @@ class Meteor(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.image = pygame.image.load("player.png").convert()
+		self.image = pygame.image.load("Escopeta.png").convert()
 		self.image.set_colorkey(BLACK)
 		self.rect = self.image.get_rect()
 
@@ -31,7 +32,7 @@ class Player(pygame.sprite.Sprite):
 
 
 pygame.init()
-
+fuente = pygame.font.Font(None, 60)
 screen = pygame.display.set_mode([900, 600])
 clock = pygame.time.Clock()
 done = False
@@ -64,7 +65,7 @@ while not done:
 	for meteor in meteor_hit_list:
 		score += 1
 		print(score)
-		
+	
 	screen.fill(WHITE)
 
 	all_sprite_list.draw(screen)
