@@ -25,21 +25,14 @@ class Calaveras(pygame.sprite.Sprite):
 			self.rect.y = -20
 			self.rect.x = random.randrange(900)
 
-class Fuego(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.image.load("fuego.png").convert()
-		self.image.set_colorkey(BLACK)
-		self.rect = self.image.get_rect()
-
 class Escopeta(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.imagea = pygame.image.load("Escopeta.png").convert()
-		self.imagea.set_colorkey(BLACK)
+		self.image = pygame.image.load("./Escopeta.png").convert()
+		self.image.set_colorkey(BLACK)
 		self.Velocidad_X = 0
 		self.Velocidad_Y = 0
-		self.rect2 = self.imagea.get_rect()
+		self.rect2 = self.image.get_rect()
         
 
 	def changespeed(self, x):
@@ -47,7 +40,7 @@ class Escopeta(pygame.sprite.Sprite):
 
 	def update(self):
 		self.rect.x += self.Velocidad_X
-		player.rect.x = 600
+		player.rect.y = 600
 
 	
 
@@ -76,11 +69,21 @@ class Bala(pygame.sprite.Sprite):
 	def update(self):
 		self.rect.y -= 4 
 
+class Fuego(pygame.sprite.Sprite):
+	def __init__(self):
+		super().__init__()
+		self.image = pygame.image.load("fuego.png").convert()
+		self.image.set_colorkey(BLACK)
+		self.rect = self.image.get_rect() 
+
+	def update(self):
+		self.rect.y -= 4 
+			
 class BalaEscopeta(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.image2 = pygame.image.load("BalaEscopeta.png").convert()
-		self.recta = self.image2.get_rect()
+		self.image = pygame.image.load("BalaEscopeta.png").convert()
+		self.recta = self.image.get_rect()
 
 	def update(self):
 		self.recta.y -= 4 
@@ -113,7 +116,7 @@ meteor_list = pygame.sprite.Group()
 all_sprite_list = pygame.sprite.Group()
 Balat_list = pygame.sprite.Group()
 Escopeta_list = pygame.sprite.Group()
-BalatEscopeta_list = pygame.sprite.Group()
+BalatEscopeta = pygame.sprite.Group()
 
 for i in range(78):
 	meteor = Calaveras()
@@ -126,12 +129,15 @@ for i in range(78):
 fuego= Fuego()
 player = Pistola()
 player2= Escopeta()
+
 all_sprite_list.add(player)
 Escopeta_list.add(player2)
 sound = pygame.mixer.Sound("./Disparo.wav")
-sound2 = pygame.mixer.Sound("./Disparo.wav")
+sound2 = pygame.mixer.Sound("./Calavera.wav")
+
  
 while not done:
+	sound2 = pygame.mixer.Sound("./Calavera.wav")
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
@@ -161,13 +167,23 @@ while not done:
 				Balat = Bala()
 				Balat.rect.x = player.rect.x + 45
 				Balat.rect.y = player.rect.y - 20
- 
+                
+
 				Balat_list.add(Balat)
 				all_sprite_list.add(Balat)
+				all_sprite_list.add(fuego)
 				sound.play()
-				Fuego_a.add(Balat)
+				
             
-            
+            #if event.key == pygame.K_z:
+				#Balat_E = BalaEscopeta()
+				#Balat_E.rect.x = player.rect.x + 45
+				#Balat_E.rect.y = player.rect.y - 20
+ 
+				#BalatEscopeta.add(Balat)
+				#Escopeta_list.add(Balat)
+				#sound.play()
+				
 
 		if event.type == pygame.KEYUP:
 			#Movimientos de jugador1
@@ -190,16 +206,16 @@ while not done:
 	for Balat in Balat_list:
 		meteor_hit_list = pygame.sprite.spritecollide(Balat, meteor_list, True)	
 		for meteor in meteor_hit_list:
+			sound2.play()
 			all_sprite_list.remove(Balat)
 			Balat_list.remove(Balat)
 			score += 1
 			print(score)
-            
+		    
+
 		if Balat.rect.y < -10:
 			all_sprite_list.remove(Balat)
 			Balat_list.remove(Balat)
-           
-           
         
     
    
